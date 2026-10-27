@@ -1,0 +1,12 @@
+{
+  "appId": "dev.alternative.warmup",
+  "appName": "Warm-up",
+  "webDir": "www",
+  "backgroundColor": "#1a1917",
+  "android": {
+    "backgroundColor": "#1a1917",
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": true,
+    "adjustMarginsForEdgeToEdge": "disable"
+  }
+}

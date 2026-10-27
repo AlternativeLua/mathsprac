@@ -1,0 +1,21 @@
+{
+  "name": "mathsprac",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Morning warm-up for Leaving Cert Higher Level maths",
+  "type": "module",
+  "scripts": {
+    "serve": "node tools/serve.mjs",
+    "test": "node tools/selftest.mjs 400",
+    "icons": "node tools/gen-icons.mjs",
+    "build": "node tools/build-www.mjs",
+    "sync": "node tools/build-www.mjs && cap sync android",
+    "apk": "node tools/build-www.mjs && cap sync android && cd android && ./gradlew assembleDebug",
+    "release": "bash tools/release.sh"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3"
+  }
+}

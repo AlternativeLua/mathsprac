@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Matches the bg token in styles.css, so the window behind the WebView
+         and the launch screen are the same warm near-black as the app. -->
+    <color name="warmBlack">#1a1917</color>
+</resources>

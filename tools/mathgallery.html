@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- Development aid: renders the notation the generators use, so the maths
+     typography can be eyeballed in one place. Not part of the app. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths notation gallery</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  #app { max-width: 560px; }
+  .case { padding: 14px 16px; }
+  .case + .case { border-top: 1px solid rgba(255,255,255,.07); }
+  .src { font-family: var(--mono); font-size: .68rem; color: var(--ink-faint); margin-bottom: 8px; word-break: break-all; }
+</style>
+</head>
+<body>
+<main id="app"><div class="view"><h1 style="font-size:1.3rem">Notation gallery</h1>
+<section class="glass" id="out"></section></div></main>
+<script type="module">
+import { proseHTML } from '../js/mathrender.js';
+
+const cases = [
+  'Solve $2x^{2} - 5x - 3 = 0$ where $x \\in \\R$.',
+  'Evaluate $\\int_{-1}^{3}\\left(3x^{2} - 4x + 5\\right)\\,dx$',
+  'Find $\\frac{dy}{dx}$ when $y = \\frac{3x + 2}{4x - 1}$',
+  'The sum $\\sum_{n=1}^{\\infty}\\frac{1}{n^{2}} = \\frac{\\pi^{2}}{6}$',
+  '$x = \\frac{-b \\pm \\sqrt{b^{2} - 4ac}}{2a}$',
+  '$\\sqrt[3]{27} = 3$ and $\\sqrt{\\frac{3}{4}} = \\frac{\\sqrt{3}}{2}$',
+  'Find the exact value of $\\sin\\left(\\frac{5\\pi}{6}\\right)$ and $\\cos(150^{\\circ})$.',
+  '$\\log_{2}(x) + \\log_{2}(x - 6) = 4$',
+  '$P(X = 3) = \\binom{10}{3}(0.4)^{3}(0.6)^{7}$',
+  '$X \\sim N(50, 8^{2})$, find $P(X < 62)$.',
+  '$\\hat{p} = 0.46$, margin of error $= 1.96\\sqrt{\\frac{\\hat{p}(1 - \\hat{p})}{400}}$',
+  '$\\bar{x} = \\frac{\\sum x}{n}$ and $\\sigma = \\sqrt{\\frac{\\sum(x - \\bar{x})^{2}}{n}}$',
+  'A circle $(x - 3)^{2} + (y + 2)^{2} = 25$ has centre $(3,\\, -2)$.',
+  '$\\frac{d}{dx}\\ln(2x^{2} + 5) = \\frac{4x}{2x^{2} + 5}$',
+  '$\\theta$ is in quadrant 2 and $\\sin\\theta = \\frac{12}{13}$, so $\\tan\\theta = -\\frac{12}{5}$.',
+  '$|\\angle A| = 47^{\\circ}$, $|AB| = 12\\text{ cm}$, area $= \\frac{1}{2}ab\\sin C$.',
+  'Rate: $\\frac{dV}{dt} = 4\\pi r^{2}\\cdot\\frac{dr}{dt} = 201.06\\text{ cm}^{3}\\text{/s}$',
+  '$y = 3\\sin(4x) - 2$ has period $\\frac{360^{\\circ}}{4} = 90^{\\circ}$',
+  '$e^{i\\pi} + 1 = 0$, $\\lim_{h \\to 0}\\frac{f(x + h) - f(x)}{h}$',
+  'Simplify $\\frac{1 - \\cos^{2}\\theta}{\\sin\\theta}$ and $1 + \\tan^{2}\\theta$.',
+  'Translated $3$ right then $2$ up: $y = f(x - 3) + 2$, $x \\ne 5$, $x \\ge 0$.',
+  '$50\\%$ of the sample, $\\therefore$ $p \\approx 0.5$',
+];
+
+document.getElementById('out').innerHTML = cases.map((c) =>
+  `<div class="case"><div class="src">${c.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</div>
+   <div class="q-prompt">${proseHTML(c)}</div></div>`).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Warm-up</string>
+    <string name="title_activity_main">Warm-up</string>
+    <string name="package_name">dev.alternative.warmup</string>
+    <string name="custom_url_scheme">dev.alternative.warmup</string>
+</resources>

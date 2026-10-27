@@ -1,0 +1,81 @@
+name: Release APK
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;36.0.0'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check the question generators
+        run: node tools/selftest.mjs 200
+
+      - name: Stage the web app
+        run: node tools/build-www.mjs
+
+      - name: Sync into the Android project
+        run: npx cap sync android
+
+      - name: Build the APK
+        run: ./gradlew assembleDebug --no-daemon
+        working-directory: android
+
+      - name: Name it after the tag
+        id: apk
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          [ "$version" = "$GITHUB_REF_NAME" ] && version="$GITHUB_SHA"
+          name="warmup-${version}.apk"
+          cp android/app/build/outputs/apk/debug/app-debug.apk "$name"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
+      # A manual run has no tag to release against, so keep the APK as an
+      # artifact instead.
+      - name: Upload as an artifact
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.apk.outputs.name }}
+          path: ${{ steps.apk.outputs.name }}
+
+      - name: Publish the release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.apk.outputs.name }}
+          generate_release_notes: true
+          body: |
+            Open this page on your Android phone, download the `.apk` below and
+            tap it. The first time, Android will ask you to allow installing
+            from this source.
+
+            The app works entirely offline and asks for no permissions.
+
+            Built from ${{ github.sha }}. These are debug-signed builds, and CI
+            signs each one with a fresh debug key — if an update refuses to
+            install, uninstall the old copy first.
