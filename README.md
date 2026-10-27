@@ -7,8 +7,12 @@ tomorrow brings a new one.
 It is an offline web app you add to your Android home screen. No build step, no
 dependencies, no network after the first load, nothing leaves the phone.
 
-There are two ways onto the phone: install the APK, or add the web app to the home
-screen. They are the same app — the APK just wraps it.
+There are three ways onto the phone, all the same app:
+
+1. **Download the APK** from the [latest release](https://github.com/AlternativeLua/mathsprac/releases/latest)
+   on the phone and tap it. Nothing else needed.
+2. **Build the APK yourself** with `npm run apk`.
+3. **Add the web app to the home screen** over Wi-Fi, as below.
 
 ## Getting it onto your phone over Wi-Fi
 
